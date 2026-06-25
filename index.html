@@ -1,285 +1,157 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>新生社様｜脱炭素2段階プラン ご提案（令和8・令和9）</title>
-<style>
-  :root{
-    --green:#1f7a4d; --green-d:#14512f; --green-l:#e8f3ec;
-    --gold:#c79a3a; --ink:#1d2b24; --gray:#5c6b63; --line:#d8e2db;
-    --target:#1f7a4d; --nontarget:#9aa6a0; --bg:#f6f9f7;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
-    color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:840px;margin:0 auto;padding:0 18px 140px}
-  header.hero{background:linear-gradient(135deg,var(--green-d),var(--green));
-    color:#fff;padding:54px 22px 46px;text-align:center;border-radius:0 0 28px 28px;
-    box-shadow:0 10px 30px rgba(20,81,47,.18)}
-  .hero .kicker{letter-spacing:.18em;font-size:13px;opacity:.85;margin-bottom:10px}
-  .hero h1{font-size:30px;line-height:1.4;margin-bottom:8px}
-  .hero .sub{font-size:15px;opacity:.92}
-  .hero .badge{display:inline-block;margin-top:18px;background:rgba(255,255,255,.16);
-    border:1px solid rgba(255,255,255,.4);padding:7px 16px;border-radius:999px;font-size:13px}
-
-  section{background:#fff;border:1px solid var(--line);border-radius:18px;
-    padding:26px 24px;margin-top:22px;box-shadow:0 4px 14px rgba(20,81,47,.05);
-    opacity:0;transform:translateY(14px);transition:.6s}
-  section.in{opacity:1;transform:none}
-  .num{display:inline-block;font-size:12px;font-weight:700;color:var(--green);
-    background:var(--green-l);padding:3px 10px;border-radius:999px;margin-bottom:10px}
-  h2{font-size:21px;color:var(--green-d);margin-bottom:6px;border-left:5px solid var(--gold);
-    padding-left:12px}
-  .lead{color:var(--gray);font-size:14px;margin:8px 0 18px}
-
-  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px;overflow:hidden;
-    border-radius:12px;border:1px solid var(--line)}
-  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line)}
-  th{background:var(--green-l);color:var(--green-d);font-weight:700}
-  td.amt,th.amt{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-  tr:last-child td{border-bottom:none}
-  .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
-  .tag.t{background:#e3f3ea;color:var(--target)}
-  .tag.n{background:#eef0ef;color:var(--nontarget)}
-  tr.sum td{background:#f3f8f5;font-weight:700}
-  tr.subsidy td{background:#fbf4e3;color:var(--green-d);font-weight:800;font-size:15px}
-  tr.new td{background:#fff8ec}
-  .new-flag{color:var(--gold);font-weight:800;font-size:11px;margin-left:6px}
-
-  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-  .kpi{flex:1;min-width:150px;background:var(--green-l);border-radius:14px;padding:16px 14px;text-align:center}
-  .kpi .l{font-size:12px;color:var(--gray)}
-  .kpi .v{font-size:26px;font-weight:800;color:var(--green-d);font-variant-numeric:tabular-nums}
-  .kpi.gold{background:#fbf4e3}.kpi.gold .v{color:var(--gold)}
-
-  .compare{background:#fff8ec;border:1px solid #ecd9a8;border-radius:14px;padding:16px 18px;margin-top:16px}
-  .compare h3{color:var(--gold);font-size:15px;margin-bottom:8px}
-  .compare .row{display:flex;justify-content:space-between;font-size:14px;padding:5px 0;border-bottom:1px dashed #e6d3a3}
-  .compare .row:last-child{border-bottom:none}
-  .compare .up{color:var(--green);font-weight:800}
-
-  .note{font-size:12px;color:var(--gray);margin-top:14px;background:#f3f5f4;border-radius:10px;padding:12px 14px}
-
-  .decision{background:linear-gradient(135deg,#14512f,#1f7a4d);color:#fff;text-align:center;border:none}
-  .decision h2{color:#fff;border-left-color:var(--gold)}
-  .decision .big{font-size:34px;font-weight:800;margin:6px 0}
-  .dbtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-  .dbtn{flex:1;min-width:210px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.5);
-    color:#fff;border-radius:14px;padding:18px;cursor:pointer;text-align:left;transition:.2s}
-  .dbtn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
-  .dbtn b{font-size:16px;display:block;margin-bottom:4px}
-  .dbtn span{font-size:13px;opacity:.9}
-  .dbtn .reco{display:inline-block;background:var(--gold);color:#14512f;font-size:11px;font-weight:800;
-    padding:2px 8px;border-radius:6px;margin-bottom:6px}
-
-  /* narration bar */
-  .narrate{position:fixed;left:0;right:0;bottom:0;background:rgba(20,81,47,.97);color:#fff;
-    backdrop-filter:blur(6px);z-index:50;box-shadow:0 -6px 20px rgba(0,0,0,.2)}
-  .narrate .inner{max-width:840px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
-  .nbtn{background:var(--gold);color:#14512f;border:none;border-radius:999px;width:46px;height:46px;
-    font-size:20px;cursor:pointer;flex:none;font-weight:800}
-  .nbtn.ghost{background:rgba(255,255,255,.18);color:#fff;width:auto;height:auto;padding:8px 14px;font-size:13px;border-radius:999px}
-  .caption{flex:1;font-size:13.5px;line-height:1.5;min-height:20px}
-  .ctrls{display:flex;gap:8px;align-items:center}
-  @media(max-width:600px){
-    .hero h1{font-size:23px}.kpi .v{font-size:21px}
-    .narrate .inner{flex-wrap:wrap}.caption{order:3;flex-basis:100%}
-  }
-  .disc{font-size:11px;color:var(--gray);text-align:center;margin-top:26px;line-height:1.6}
-</style>
-</head>
-<body>
-
-<header class="hero">
-  <div class="kicker">SUSTAINA SHIELD ｜ 脱炭素・省エネ ご提案</div>
-  <h1>有限会社 新生社ボーン・アゲイン 様<br>脱炭素 2段階プラン</h1>
-  <div class="sub">令和8年度 → 令和9年度／千葉県 脱炭素化促進事業補助金 活用</div>
-  <div class="badge">▶ 画面下の「再生」でナレーション再生／高品質な<b>Nanami音声</b>はMicrosoft Edgeで再生されます</div>
-</header>
-
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>新生社様 省エネ・創エネ 2段階プラン</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:#1b2733;background:#eef2f6;line-height:1.7}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px 80px}
+.cover{background:linear-gradient(135deg,#0e2a47,#1769aa);color:#fff;padding:50px 24px;text-align:center;border-radius:0 0 24px 24px}
+.cover h1{font-size:28px;margin-bottom:10px}.cover p{font-size:15px;opacity:.92}.cover .cust{margin-top:16px;font-size:16px;font-weight:bold}
+.play{margin-top:22px;background:#15a36b;color:#fff;border:none;padding:14px 30px;border-radius:40px;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.hl{background:#fff;border-radius:14px;padding:18px;margin:18px 0;box-shadow:0 4px 16px rgba(14,42,71,.08)}
+.hl .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.hl .b{background:#eaf6ef;border:1px solid #9ed9be;border-radius:12px;padding:12px;text-align:center}
+.hl .b .n{font-size:18px;font-weight:bold;color:#0e2a47}.hl .b .l{font-size:11px;color:#5b6b7b}
+.yr{background:#fff;border-radius:18px;padding:24px 20px;margin:22px 0;box-shadow:0 4px 16px rgba(14,42,71,.08)}
+.yrhead{display:flex;align-items:center;gap:12px;border-left:6px solid #1769aa;padding-left:14px;margin-bottom:16px}
+.yrhead .badge{background:#0e2a47;color:#fff;font-size:13px;padding:4px 12px;border-radius:20px;white-space:nowrap}.yrhead h2{font-size:20px}
+.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:14px}
+.item{background:#f4f8fb;border:1px solid #d7e3ee;border-radius:12px;padding:12px}
+.item .t{font-weight:bold;color:#0e2a47;font-size:13.5px}.item .d{font-size:12px;color:#5b6b7b;margin-top:3px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:6px 0 16px}
+.kpi{background:#eaf6ef;border:1px solid #9ed9be;border-radius:12px;padding:12px;text-align:center}
+.kpi .n{font-size:18px;font-weight:bold;color:#0e2a47}.kpi .l{font-size:11px;color:#5b6b7b}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.charts{grid-template-columns:1fr}.cover h1{font-size:23px}}
+.chartbox{background:#fafcfe;border:1px solid #e2ebf2;border-radius:12px;padding:10px 8px 6px}.chartbox h4{text-align:center;font-size:14px;color:#0e2a47;margin-bottom:4px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:4px 0 16px;font-size:12px;color:#444}
+.legend span{display:inline-flex;align-items:center;gap:5px}.legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
+.note{font-size:12px;color:#5b6b7b;background:#fff8e1;border:1px solid #e5c76b;border-radius:10px;padding:10px 12px;margin-top:12px}
+.cool{background:#eef6fb;border:1px solid #bcdcee;border-radius:12px;padding:14px;margin:16px 0}
+.cool h3{font-size:15px;color:#0e2a47;margin-bottom:6px}.cool p{font-size:12.5px;color:#33414f}
+.sum{background:#0e2a47;color:#fff;border-radius:18px;padding:26px 22px;margin-top:22px;text-align:center}
+.sum h2{font-size:20px;margin-bottom:14px}.sum .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.sum .b{background:rgba(255,255,255,.1);border-radius:12px;padding:14px}.sum .b .n{font-size:18px;font-weight:bold}.sum .b .l{font-size:11px;opacity:.85}
+.foot{font-size:11px;color:#8595a4;text-align:center;margin-top:20px}.now{outline:3px solid #15a36b;outline-offset:3px;border-radius:18px}
+</style></head><body>
+<div class="cover" id="s_cover"><h1>省エネ・創エネ ダブルプラン</h1>
+<p>令和8・令和9 2段階｜24時間の自家消費シミュレーション</p>
+<div class="cust">有限会社新生社ボーン・アゲイン様（八街市）</div>
+<button class="play" id="play">&#9654; 自動再生（ナレーション）</button>
+<p style="font-size:12px;margin-top:10px;opacity:.8">タップで音声解説が始まります</p></div>
 <div class="wrap">
+<div class="hl"><div class="row">
+<div class="b"><div class="n">約480〜500万円</div><div class="l">現在の年間電気代(推定)</div></div>
+<div class="b"><div class="n">約290〜320万円/年</div><div class="l">削減(58〜64%)</div></div>
+<div class="b"><div class="n">2年で1,740万円</div><div class="l">千葉県補助金</div></div>
+<div class="b"><div class="n">約7〜8年</div><div class="l">投資回収(導入価格ベース/試算)</div></div>
+</div></div>
 
-  <section data-n="1" data-say="新生社ボーン・アゲイン様への、脱炭素2段階プランのご提案です。御社は年間およそ11万キロワットアワーの電力を、高圧一括受電で使われています。この電気代の負担を、補助金を上手に使いながら、自家消費と蓄電池で大きく下げていく計画です。令和8年度と令和9年度の2段階で、無理なく、そして補助の取りこぼしなく進めます。">
-    <span class="num">01 ご提案の全体像</span>
-    <h2>補助金を“2段階”で最大活用する</h2>
-    <p class="lead">千葉県の補助金は「補助率1/2・上限1,000万円／年」。1年で使い切るより、令和8・令和9に分けることで上限枠を“2回”使えます。これが今回いちばんのポイントです。</p>
-    <div class="kpis">
-      <div class="kpi"><div class="l">2年 総工費</div><div class="v">5,578<small>万</small></div></div>
-      <div class="kpi gold"><div class="l">受けられる補助金</div><div class="v">1,964<small>万</small></div></div>
-      <div class="kpi"><div class="l">実質ご負担</div><div class="v">3,614<small>万</small></div></div>
-    </div>
-    <p class="note">※金額は見積・試算ベース（税別）。補助対象・補助額は最終的に千葉県・省エネ診断の確認後に確定します。</p>
-  </section>
-
-  <section data-n="2" data-say="令和8年度です。まず電気の自家消費化を進めます。テスラ・パワーウォール3を4台、54キロワットアワー分導入し、高圧の接続と各種試験を行います。あわせて、屋根700平米に冷暖断熱のトリプルガードコートを施工します。これは省エネと屋根の保護を兼ねた、補助対象になる工事です。令和8年度は総工費2,578万円に対し、補助金は964万円を見込みます。">
-    <span class="num">02 令和8年度</span>
-    <h2>自家消費化 ＋ 蓄電池 ＋ 屋根断熱</h2>
-    <p class="lead">電気代の元になる「買う電気」を減らす、土台づくりの1年。</p>
-    <table>
-      <tr><th>内容</th><th>区分</th><th class="amt">工費(見積)</th></tr>
-      <tr><td>テスラ Powerwall3 ×4台（54kWh）</td><td><span class="tag t">補助対象</span></td><td class="amt">880万</td></tr>
-      <tr><td>高圧接続・自家消費 各種試験</td><td><span class="tag t">補助対象</span></td><td class="amt">300万</td></tr>
-      <tr><td>冷暖断熱トリプルガードコート 屋根700㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">700万</td></tr>
-      <tr><td>足場 400㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">48万</td></tr>
-      <tr><td>パワコン交換（オムロン自家消費）</td><td><span class="tag n">対象外</span></td><td class="amt">650万</td></tr>
-      <tr class="sum"><td>総工費</td><td></td><td class="amt">2,578万</td></tr>
-      <tr class="sum"><td>補助対象額</td><td></td><td class="amt">1,928万</td></tr>
-      <tr class="subsidy"><td>補助金（1/2・上限1,000）</td><td></td><td class="amt">964万</td></tr>
-    </table>
-  </section>
-
-  <section data-n="3" data-say="令和9年度です。ここがご相談のポイント。蓄電池をさらに4台、合計8台108キロワットアワーに増強し、太陽光も増設して合計およそ110キロワットにします。そしてご指示のとおり、塗装・断熱の面積を増やします。窓ガラスコーティング90平米に加え、外壁と屋根のトリプルガードコートを640平米ぶん追加しました。この塗装面の拡大によって、補助対象が2,000万円に達し、補助金は上限いっぱいの1,000万円になります。塗装面を増やすほど、補助枠を使い切れて有利になる、というのがこの提案の肝です。">
-    <span class="num">03 令和9年度 ★塗装面 拡大版</span>
-    <h2>太陽光増設 ＋ 蓄電池8台 ＋ 窓・外壁断熱</h2>
-    <p class="lead">塗装・断熱の面積を増やし、補助枠（上限1,000万）を“使い切る”最適設計。</p>
-    <table>
-      <tr><th>内容</th><th>区分</th><th class="amt">工費(見積)</th></tr>
-      <tr><td>テスラ Powerwall3 ×4台（計8台・108kWh）</td><td><span class="tag t">補助対象</span></td><td class="amt">880万</td></tr>
-      <tr><td>高圧接続・各種試験</td><td><span class="tag t">補助対象</span></td><td class="amt">300万</td></tr>
-      <tr><td>窓ガラスコーティング 90㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">180万</td></tr>
-      <tr class="new"><td>冷暖断熱トリプルガードコート 外壁・屋根 640㎡<span class="new-flag">▲塗装面 追加</span></td><td><span class="tag t">補助対象</span></td><td class="amt">640万</td></tr>
-      <tr><td>太陽光 増設（計 約110kW）</td><td><span class="tag n">対象外</span></td><td class="amt">1,000万</td></tr>
-      <tr class="sum"><td>総工費</td><td></td><td class="amt">3,000万</td></tr>
-      <tr class="sum"><td>補助対象額</td><td></td><td class="amt">2,000万</td></tr>
-      <tr class="subsidy"><td>補助金（1/2・上限1,000）</td><td></td><td class="amt">1,000万（上限到達）</td></tr>
-    </table>
-    <div class="compare">
-      <h3>塗装面を増やす効果（令和9）</h3>
-      <div class="row"><span>塗装面 追加 前：補助対象 1,360万</span><span>補助 680万</span></div>
-      <div class="row"><span>塗装面 +640㎡ 追加：補助対象 2,000万</span><span class="up">補助 1,000万</span></div>
-      <div class="row"><span>差（取りこぼし回収）</span><span class="up">＋320万 お得</span></div>
-    </div>
-  </section>
-
-  <section data-n="4" data-say="2年間の合計です。総工費はおよそ5,578万円。そのうち、受けられる補助金は1,964万円。塗装面を増やさなかった場合は1,644万円でしたので、今回の工夫で320万円ぶん多く補助を引き出せます。実質のご負担はおよそ3,614万円。さらに自家消費による電気代の削減も毎年積み上がっていきます。">
-    <span class="num">04 2年合計</span>
-    <h2>2段階で受けられる補助金</h2>
-    <table>
-      <tr><th>年度</th><th class="amt">総工費</th><th class="amt">補助対象額</th><th class="amt">補助金</th></tr>
-      <tr><td>令和8年度</td><td class="amt">2,578万</td><td class="amt">1,928万</td><td class="amt">964万</td></tr>
-      <tr><td>令和9年度 ★塗装拡大</td><td class="amt">3,000万</td><td class="amt">2,000万</td><td class="amt">1,000万</td></tr>
-      <tr class="subsidy"><td>合計</td><td class="amt">5,578万</td><td class="amt">3,928万</td><td class="amt">1,964万</td></tr>
-    </table>
-    <div class="kpis">
-      <div class="kpi gold"><div class="l">2年 補助金 合計</div><div class="v">1,964<small>万</small></div></div>
-      <div class="kpi"><div class="l">塗装面 拡大の上乗せ</div><div class="v">+320<small>万</small></div></div>
-    </div>
-    <p class="note">税込目安：令和8 約2,836万／令和9 約3,300万／合計 約6,136万（税別工費に10%）。</p>
-  </section>
-
-  <section class="decision" data-n="5" data-say="ご決断のお願いです。おすすめは、塗装面を拡大した最適プラン。2段階で補助金1,964万円を引き出し、補助の取りこぼしをなくす形です。この方向で進めてよろしければ、すぐにCO2CO2スマート宣言の登録と、省エネ診断の手配に着手します。枠は先着で、昨年は9月中旬に終了しています。早めのご決断が、そのまま補助の確実な確保につながります。ご検討よろしくお願いいたします。">
-    <span class="num" style="background:rgba(255,255,255,.18);color:#fff">05 ご決断のお願い</span>
-    <h2>どちらで進めますか？</h2>
-    <div class="big">補助金 1,964万円</div>
-    <div class="sub" style="opacity:.9">塗装面を増やし、2年で補助枠を使い切る最適プラン</div>
-    <div class="dbtns">
-      <div class="dbtn" onclick="this.style.background='rgba(255,255,255,.3)'">
-        <span class="reco">おすすめ</span>
-        <b>A：塗装面 拡大プランで進める</b>
-        <span>令和9に外壁・屋根640㎡を追加／2年補助 1,964万。CO2CO2宣言・省エネ診断にすぐ着手。</span>
-      </div>
-      <div class="dbtn" onclick="this.style.background='rgba(255,255,255,.3)'">
-        <b>B：標準プラン（塗装据え置き）</b>
-        <span>令和9は窓のみ／2年補助 1,644万。まず2段階の枠取りを優先。</span>
-      </div>
-    </div>
-    <p style="font-size:12px;opacity:.85;margin-top:16px">※枠は先着・早期消化（昨年9月中旬終了）。お早めのご決断をおすすめします。</p>
-  </section>
-
-  <p class="disc">
-    本資料の金額は見積・試算ベース（特記なき場合 税別）です。補助対象範囲・補助率・補助金額は、
-    千葉県の公募要領および省エネ診断・県窓口の確認により最終確定します。<br>
-    既設太陽光（約65kW）のFIT/卒FIT条件、太陽光増設の補助対象可否、各単価の妥当性は確認のうえ正式見積を提示します。<br>
-    作成：寺嵜（本社営業部）／ SustainaShield
-  </p>
+<div class="yr" id="s_r8"><div class="yrhead"><span class="badge">令和8年度</span><h2>太陽光増設＋自家消費スタート＋屋根防水遮熱</h2></div>
+<div class="items">
+<div class="item"><div class="t">太陽光増設 50kW（自家消費）</div><div class="d">エコメガネ・ZPD（逆潮流防止）</div></div>
+<div class="item"><div class="t">テスラ Powerwall3 ×4台</div><div class="d">蓄電 54kWh</div></div>
+<div class="item"><div class="t">冷暖トリプルガードコート 屋根650㎡</div><div class="d">パネル設置前の防水＋遮熱／足場</div></div>
+<div class="item"><div class="t">既存太陽光65kW</div><div class="d">FIT売電のまま温存</div></div>
 </div>
-
-<!-- Narration bar -->
-<div class="narrate">
-  <div class="inner">
-    <button class="nbtn" id="play" aria-label="再生">▶</button>
-    <div class="caption" id="cap">ナレーションを再生すると、各セクションを順に音声でご案内します。</div>
-    <div class="ctrls">
-      <span id="voiceTag" style="font-size:12px;opacity:.85"></span>
-      <button class="nbtn ghost" id="stop">■ 停止</button>
-    </div>
-  </div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:2px 0 14px;background:#fff;border:1px solid #e2ebf2;border-radius:10px;overflow:hidden">
+<tr style="background:#0e2a47;color:#fff"><th style="text-align:left;padding:8px 10px;font-weight:bold">内容</th><th style="padding:8px 8px;white-space:nowrap">区分</th><th style="text-align:right;padding:8px 10px;white-space:nowrap">工費(税別)</th></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">テスラ Powerwall3 ×4台（@250万）</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px;font-weight:bold">1,000万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">冷暖トリプルガードコート 屋根650㎡（防水＋遮熱）</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px">650万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">足場</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px">80万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">高圧接続・各種試験</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px">300万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">太陽光増設 50kW（自家消費／エコメガネ30＋ZPD15込・500万値引後）</td><td style="text-align:center;padding:7px 8px;color:#8595a4;white-space:nowrap">補助対象外</td><td style="text-align:right;padding:7px 10px">500万</td></tr>
+<tr style="background:#eaf6ef;font-weight:bold;border-top:2px solid #9ed9be"><td style="padding:8px 10px">総工費</td><td></td><td style="text-align:right;padding:8px 10px">2,530万</td></tr>
+<tr style="background:#fff8e1"><td style="padding:8px 10px">千葉県補助金（補助対象 約2,000×1/2・上限満額）</td><td></td><td style="text-align:right;padding:8px 10px;color:#c0392b;font-weight:bold">▲1,000万</td></tr>
+</table>
+<div class="kpis"><div class="kpi"><div class="n">約189万円/年</div><div class="l">電気代削減</div></div>
+<div class="kpi"><div class="n">89→60kW</div><div class="l">ピークカット</div></div>
+<div class="kpi"><div class="n">屋根の暑さ対策</div><div class="l">パネル＋遮熱コート</div></div></div>
+<div class="legend"><span><i style="background:#0e2a47"></i>消費</span><span><i style="background:#e0a21e"></i>発電(太陽光)</span><span><i style="background:#1769aa"></i>蓄電(充電)</span><span><i style="background:#15a36b"></i>放電</span></div>
+<div class="charts">
+<div class="chartbox"><h4>春</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（春）</text></svg></div>
+<div class="chartbox"><h4>夏</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（夏）</text></svg></div>
+<div class="chartbox"><h4>秋</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（秋）</text></svg></div>
+<div class="chartbox"><h4>冬</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（冬）</text></svg></div>
 </div>
+<div class="note">グラフは平日平均の1日。紺=消費/黄=発電(自家消費50kW)/青=蓄電/緑=放電。昼の発電を使い、余りを蓄電して夕方に放電します。</div></div>
 
+<div class="yr" id="s_r9"><div class="yrhead"><span class="badge">令和9年度</span><h2>既存も自家消費化（計110kW）＋蓄電池8台＋窓断熱</h2></div>
+<div class="items">
+<div class="item"><div class="t">テスラ Powerwall3 ×4台（計8台）</div><div class="d">蓄電 108kWh</div></div>
+<div class="item"><div class="t">既存60kWを自家消費化</div><div class="d">パワコン交換 → 自家消費 計110kW</div></div>
+<div class="item"><div class="t">窓ガラスフィルム 90㎡</div><div class="d">南面の日射熱カット</div></div>
+<div class="item"><div class="t">高圧接続・各種試験</div><div class="d">連系</div></div>
+</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:2px 0 14px;background:#fff;border:1px solid #e2ebf2;border-radius:10px;overflow:hidden">
+<tr style="background:#0e2a47;color:#fff"><th style="text-align:left;padding:8px 10px;font-weight:bold">内容</th><th style="padding:8px 8px;white-space:nowrap">区分</th><th style="text-align:right;padding:8px 10px;white-space:nowrap">工費(税別)</th></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">テスラ Powerwall3 ×4台（@250万・計8台）</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px;font-weight:bold">1,000万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">窓ガラスフィルム 90㎡</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px">180万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">高圧接続・各種試験</td><td style="text-align:center;padding:7px 8px;color:#15a36b;white-space:nowrap">補助対象</td><td style="text-align:right;padding:7px 10px">300万</td></tr>
+<tr style="border-top:1px solid #eef2f6"><td style="padding:7px 10px">パワコン交換</td><td style="text-align:center;padding:7px 8px;color:#8595a4;white-space:nowrap">補助対象外</td><td style="text-align:right;padding:7px 10px">20万</td></tr>
+<tr style="background:#eaf6ef;font-weight:bold;border-top:2px solid #9ed9be"><td style="padding:8px 10px">総工費</td><td></td><td style="text-align:right;padding:8px 10px">1,500万</td></tr>
+<tr style="background:#fff8e1"><td style="padding:8px 10px">千葉県補助金（補助対象 1,480×1/2）</td><td></td><td style="text-align:right;padding:8px 10px;color:#c0392b;font-weight:bold">▲740万</td></tr>
+</table>
+<div class="kpis"><div class="kpi"><div class="n">約337万円/年</div><div class="l">電気代削減(実運用290〜320万)</div></div>
+<div class="kpi"><div class="n">89→37kW</div><div class="l">ピークカット</div></div>
+<div class="kpi"><div class="n">窓＋屋根 遮熱</div><div class="l">空調をさらに圧縮</div></div></div>
+<div class="legend"><span><i style="background:#0e2a47"></i>消費</span><span><i style="background:#e0a21e"></i>発電(太陽光)</span><span><i style="background:#1769aa"></i>蓄電(充電)</span><span><i style="background:#15a36b"></i>放電</span></div>
+<div class="charts">
+<div class="chartbox"><h4>春</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（春・計110kW）</text></svg></div>
+<div class="chartbox"><h4>夏</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（夏・計110kW）</text></svg></div>
+<div class="chartbox"><h4>秋</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（秋・計110kW）</text></svg></div>
+<div class="chartbox"><h4>冬</h4><svg viewBox="0 0 470 160" width="100%" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="470" height="160" fill="#fafcfe"/><text x="235" y="85" font-size="11" fill="#8595a4" text-anchor="middle">24時間 自家消費グラフ（冬・計110kW）</text></svg></div>
+</div>
+<div class="note">自家消費が110kWに拡大し、黄(発電)・青(蓄電)が大きく増加。夏の昼の不足を埋め、8台の蓄電池で夕方〜夜・ピークカットに使います。</div></div>
+
+<div class="cool"><h3>☀ 太陽光パネルが屋根を冷やす（2階が涼しくなる根拠）</h3>
+<p>パネルが直射日光を遮ることで、実測研究では<b>屋根表面 約25℃低下（70→45℃）／屋根裏 約15℃低下（55→40℃）→ エアコン消費電力 10〜15%削減</b>。トリプルガードコートの遮熱と合わせ、2階の暑さを実際に和らげます。本試算は控えめに空調の約10〜13%で計上。</p></div>
+
+<div class="sum" id="s_summary"><h2>2年トータルのまとめ</h2>
+<div class="row">
+<div class="b"><div class="n">導入価格 4,030万</div><div class="l">令和8 2,530＋令和9 1,500(税別)</div></div>
+<div class="b"><div class="n">補助 ▲1,740万</div><div class="l">2年・千葉県補助金</div></div>
+<div class="b"><div class="n">実質ご負担 2,290万</div><div class="l">導入価格−補助金(税別)</div></div>
+<div class="b"><div class="n">削減 約300万/年</div><div class="l">電気代(58〜64%減)</div></div>
+<div class="b"><div class="n">回収 約7〜8年</div><div class="l">2,290万÷約300万/年</div></div>
+</div>
+<div style="background:rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;margin-top:14px;text-align:left;font-size:13px;line-height:1.8">
+<b>■ 投資回収の考え方（導入価格ベース）</b><br>
+導入価格（見積・税別）4,030万円から千葉県補助金1,740万円を差し引いた<b>実質ご負担 2,290万円</b>を、自家消費による電気代削減（約300万円／年）で回収します。<br>
+・<b>実質ご負担 2,290万円 ÷ 約300万円/年 ≒ 約7〜8年で回収</b>（削減額が大きい年は早まります）<br>
+※太陽光・パワコン交換などは「自家消費を生む設備」です。費用は導入価格に含めたうえで、回収は<u>電気代削減＋補助金</u>で評価しています（導入価格＝実質ご負担ではありません）。
+</div>
+<div style="background:rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;margin-top:12px;text-align:left;font-size:13px;line-height:1.8">
+<b>■ 価格の考え方（圧縮効果）</b><br>
+通常のご提案なら、<b>太陽光増設＋パワコン交換だけで約1,650万円（税別）</b>、<b>蓄電池8台は別途 約1,640万円（税別）</b>。付帯設備まで含めて<b>4,030万円（税別）</b>に圧縮し、千葉県補助金1,740万円の活用で、<b>実質ご負担 約2,290万円（税別）</b>で導入いただけます。<br>
+※令和9年度の補助金をさらに伸ばすには、残りの屋根へのトリプルガードコート施工も別途ご検討ください。
+</div>
+<p style="font-size:13px;margin-top:14px;opacity:.9">電気代も、夏の暑さ・冬の寒さの我慢も、停電対策も、まとめて解決。補助も2年で満額活用します。</p></div>
+
+<div class="foot">株式会社シスコムネット 本社営業部 寺嵜 忠弘｜記載の金額・補助・回収年数・発電量・削減額は実測データに基づく試算です。省エネ診断・正式積算・千葉県の交付決定により確定します。屋根遮熱の出典：エコ発電本舗／SOLSEL／タイナビ。</div>
+</div>
 <script>
-  // reveal on scroll
-  const secs=[...document.querySelectorAll('section')];
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
-  secs.forEach(s=>io.observe(s));
-
-  // narration
-  const cap=document.getElementById('cap');
-  const playBtn=document.getElementById('play');
-  const stopBtn=document.getElementById('stop');
-  const voiceTag=document.getElementById('voiceTag');
-  const items=secs.map(s=>({el:s,text:s.dataset.say})).filter(i=>i.text);
-  let idx=0, playing=false;
-  const synth=window.speechSynthesis;
-
-  // ▼ MP3ナレーション設定 ▼
-  // 同じフォルダに sec1.mp3 〜 sec5.mp3（Nanami音声）を置くと、スマホ含む全端末でその高品質MP3を再生します。
-  // MP3が無いセクションは、簡易音声（Web Speech API）に自動フォールバックします。
-  const audioFile=(i)=>`sec${i+1}.mp3`;
-  const audioEl=new Audio();
-  audioEl.preload='none';
-
-  function pickVoice(){
-    const vs=synth.getVoices();
-    return vs.find(v=>/Nanami/i.test(v.name))
-        || vs.find(v=>/ja-JP/i.test(v.lang) && /Natural|Online|Neural/i.test(v.name))
-        || vs.find(v=>/ja|Japanese|日本/i.test(v.lang+v.name))
-        || vs[0];
-  }
-
-  // セクションを再生：まずMP3を試し、ダメなら簡易音声へ
-  function playAt(i){
-    if(i>=items.length){stopAll();cap.textContent='ご視聴ありがとうございました。ご検討よろしくお願いいたします。';return;}
-    idx=i;
-    const it=items[i];
-    it.el.scrollIntoView({behavior:'smooth',block:'center'});
-    cap.textContent=it.text;
-
-    synth.cancel();
-    audioEl.onended=null; audioEl.onerror=null;
-    audioEl.src=audioFile(i);
-    audioEl.onended=()=>{ if(playing) playAt(i+1); };
-    audioEl.onerror=()=>{ speakFallback(i); };           // MP3が無い→簡易音声
-    voiceTag.textContent='🎙 Nanami（MP3）';
-    const p=audioEl.play();
-    if(p&&p.catch) p.catch(()=>speakFallback(i));
-  }
-
-  function speakFallback(i){
-    if(!('speechSynthesis' in window)){ if(playing) setTimeout(()=>playAt(i+1),300); return; }
-    const u=new SpeechSynthesisUtterance(items[i].text);
-    const v=pickVoice(); if(v)u.voice=v;
-    u.lang='ja-JP'; u.rate=0.98; u.pitch=1.0;
-    voiceTag.textContent = v && /Nanami/i.test(v.name) ? '🎙 Nanami' : '🔈 簡易音声';
-    u.onend=()=>{ if(playing) playAt(i+1); };
-    synth.cancel(); synth.speak(u);
-  }
-
-  function startAll(){
-    playing=true; playBtn.textContent='⏸';
-    playAt(idx>=items.length?0:idx);
-  }
-  function stopAll(){
-    playing=false; playBtn.textContent='▶';
-    synth.cancel(); try{audioEl.pause();}catch(e){}
-  }
-  playBtn.onclick=()=>{
-    if(playing){ stopAll(); }
-    else startAll();
-  };
-  stopBtn.onclick=()=>{ idx=0; stopAll(); cap.textContent='停止しました。再生ボタンで最初からご案内します。'; };
-  if(typeof speechSynthesis!=='undefined') speechSynthesis.onvoiceschanged=()=>{};
-</script>
-</body>
-</html>
+const NARR=[["cover", "新生社様、省エネ・創エネ ダブルプランのご提案です。令和8・令和9の2段階で、太陽光の自家消費、蓄電池、断熱コーティングを導入します。実際の電力データ1年分にもとづくシミュレーションで、現在およそ年500万円の電気代を、最終的に年300万円規模で削減することを目指します。"], ["r8", "令和8年度です。まず太陽光を50キロワット新設し、エコメガネとZPDで自家消費を始めます。令和8年度に太陽光をまず新設することで、パネルが屋根を覆って日差しをさえぎり、屋根からの暑さ対策を実現します。蓄電池はテスラ4台。屋根には、パネルを貼る前に冷暖断熱トリプルガードコートで防水と遮熱を施し、暑さ対策をさらに強めます。グラフは春夏秋冬の一日の動きで、黄色が発電、紺色が消費、青が充電、緑が放電です。昼に発電した電気を使い、余りを蓄電池にためて夕方に放電します。既存の太陽光はFIT売電のまま残します。電気代の削減はおよそ年189万円です。"], ["r9", "令和9年度です。テスラを4台追加して合計8台にし、既存の60キロワットも自家消費へ切り替えて、自家消費の太陽光は合計110キロワットになります。さらに南面の窓ガラスフィルムを施工。発電の黄色が大きくなり、充電も増え、夏の昼の不足をしっかり埋めます。電気代の削減は年337万円規模、ピークカットで最大需要も89キロワットから37キロワットへ下げられます。"], ["summary", "太陽光パネルが屋根を覆うことで、屋根表面はおよそ25度、屋根裏はおよそ15度下がり、エアコンの消費は10から15パーセント減るという実測研究があります。2階の暑さも和らぎます。2年間の導入価格はおよそ4030万円、税別です。ここから千葉県の補助金およそ1740万円を差し引いた、実質のご負担はおよそ2290万円です。これを毎年およそ300万円の電気代削減で、単純におよそ7年から8年で回収できる計算です。電気代も、暑さ寒さの我慢も、停電対策も、まとめて解決するご提案です。なお記載の数値は試算であり、省エネ診断・正式積算・交付決定で確定します。"]];
+let idx=0,playing=false;const synth=window.speechSynthesis;
+// 同じフォルダに sec1.mp3〜sec4.mp3(Nanami)があればMP3で、無ければ簡易音声で再生。スマホでもMP3ならNanami音質。
+const audioEl=new Audio();audioEl.preload='none';
+const playBtn=document.getElementById('play');
+function pickVoice(){const vs=synth.getVoices();return vs.find(v=>/Nanami/i.test(v.name))||vs.find(v=>/ja-JP/i.test(v.lang)&&/Natural|Online|Neural/i.test(v.name))||vs.find(v=>/ja|Japanese|日本/i.test(v.lang+v.name))||vs[0];}
+function hl(id){document.querySelectorAll('.now').forEach(e=>e.classList.remove('now'));const el=document.getElementById('s_'+id);if(el){el.classList.add('now');el.scrollIntoView({behavior:'smooth',block:'start'});}}
+function step(i){
+  if(i>=NARR.length){finish();return;}
+  idx=i;hl(NARR[i][0]);
+  audioEl.onended=null;audioEl.onerror=null;
+  audioEl.src='sec'+(i+1)+'.mp3';
+  audioEl.onended=()=>{if(playing)step(i+1);};
+  audioEl.onerror=()=>{speak(i);};
+  const p=audioEl.play();if(p&&p.catch)p.catch(()=>speak(i));
+}
+function speak(i){
+  if(!('speechSynthesis' in window)){if(playing)setTimeout(()=>step(i+1),400);return;}
+  const u=new SpeechSynthesisUtterance(NARR[i][1]);const v=pickVoice();if(v)u.voice=v;
+  u.lang='ja-JP';u.rate=0.98;u.onend=()=>{if(playing)step(i+1);};
+  synth.cancel();synth.speak(u);
+}
+function finish(){playing=false;playBtn.textContent='▶ もう一度';document.querySelectorAll('.now').forEach(e=>e.classList.remove('now'));}
+function stopAll(){playing=false;synth.cancel();try{audioEl.pause();}catch(e){}playBtn.textContent='▶ 再生';document.querySelectorAll('.now').forEach(e=>e.classList.remove('now'));}
+playBtn.addEventListener('click',()=>{if(playing){stopAll();return;}playing=true;playBtn.textContent='■ 停止';step(0);});
+</script></body></html>
