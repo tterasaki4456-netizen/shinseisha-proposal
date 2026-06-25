@@ -223,37 +223,59 @@
   let idx=0, playing=false;
   const synth=window.speechSynthesis;
 
+  // ▼ MP3ナレーション設定 ▼
+  // 同じフォルダに sec1.mp3 〜 sec5.mp3（Nanami音声）を置くと、スマホ含む全端末でその高品質MP3を再生します。
+  // MP3が無いセクションは、簡易音声（Web Speech API）に自動フォールバックします。
+  const audioFile=(i)=>`sec${i+1}.mp3`;
+  const audioEl=new Audio();
+  audioEl.preload='none';
+
   function pickVoice(){
     const vs=synth.getVoices();
-    // Nanami（Azure/Edgeのニューラル音声）を最優先。次に他の日本語音声。
     return vs.find(v=>/Nanami/i.test(v.name))
         || vs.find(v=>/ja-JP/i.test(v.lang) && /Natural|Online|Neural/i.test(v.name))
         || vs.find(v=>/ja|Japanese|日本/i.test(v.lang+v.name))
         || vs[0];
   }
-  function speakAt(i){
-    if(i>=items.length){stopAll();return;}
+
+  // セクションを再生：まずMP3を試し、ダメなら簡易音声へ
+  function playAt(i){
+    if(i>=items.length){stopAll();cap.textContent='ご視聴ありがとうございました。ご検討よろしくお願いいたします。';return;}
     idx=i;
     const it=items[i];
     it.el.scrollIntoView({behavior:'smooth',block:'center'});
     cap.textContent=it.text;
-    const u=new SpeechSynthesisUtterance(it.text);
+
+    synth.cancel();
+    audioEl.onended=null; audioEl.onerror=null;
+    audioEl.src=audioFile(i);
+    audioEl.onended=()=>{ if(playing) playAt(i+1); };
+    audioEl.onerror=()=>{ speakFallback(i); };           // MP3が無い→簡易音声
+    voiceTag.textContent='🎙 Nanami（MP3）';
+    const p=audioEl.play();
+    if(p&&p.catch) p.catch(()=>speakFallback(i));
+  }
+
+  function speakFallback(i){
+    if(!('speechSynthesis' in window)){ if(playing) setTimeout(()=>playAt(i+1),300); return; }
+    const u=new SpeechSynthesisUtterance(items[i].text);
     const v=pickVoice(); if(v)u.voice=v;
     u.lang='ja-JP'; u.rate=0.98; u.pitch=1.0;
-    if(v && /Nanami/i.test(v.name)){ voiceTag.textContent='🎙 Nanami'; }
-    else if(v){ voiceTag.textContent='🎙 '+v.name.replace(/Microsoft |Google /,''); }
-    u.onend=()=>{ if(playing) speakAt(i+1); };
+    voiceTag.textContent = v && /Nanami/i.test(v.name) ? '🎙 Nanami' : '🔈 簡易音声';
+    u.onend=()=>{ if(playing) playAt(i+1); };
     synth.cancel(); synth.speak(u);
   }
+
   function startAll(){
     playing=true; playBtn.textContent='⏸';
-    speakAt(idx>=items.length?0:idx);
+    playAt(idx>=items.length?0:idx);
   }
   function stopAll(){
-    playing=false; playBtn.textContent='▶'; synth.cancel();
+    playing=false; playBtn.textContent='▶';
+    synth.cancel(); try{audioEl.pause();}catch(e){}
   }
   playBtn.onclick=()=>{
-    if(playing){ playing=false; playBtn.textContent='▶'; synth.cancel(); }
+    if(playing){ stopAll(); }
     else startAll();
   };
   stopBtn.onclick=()=>{ idx=0; stopAll(); cap.textContent='停止しました。再生ボタンで最初からご案内します。'; };
