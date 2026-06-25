@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>新生社様｜脱炭素2段階プラン ご提案（令和8・令和9）</title>
+<style>
+  :root{
+    --green:#1f7a4d; --green-d:#14512f; --green-l:#e8f3ec;
+    --gold:#c79a3a; --ink:#1d2b24; --gray:#5c6b63; --line:#d8e2db;
+    --target:#1f7a4d; --nontarget:#9aa6a0; --bg:#f6f9f7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:840px;margin:0 auto;padding:0 18px 140px}
+  header.hero{background:linear-gradient(135deg,var(--green-d),var(--green));
+    color:#fff;padding:54px 22px 46px;text-align:center;border-radius:0 0 28px 28px;
+    box-shadow:0 10px 30px rgba(20,81,47,.18)}
+  .hero .kicker{letter-spacing:.18em;font-size:13px;opacity:.85;margin-bottom:10px}
+  .hero h1{font-size:30px;line-height:1.4;margin-bottom:8px}
+  .hero .sub{font-size:15px;opacity:.92}
+  .hero .badge{display:inline-block;margin-top:18px;background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.4);padding:7px 16px;border-radius:999px;font-size:13px}
+
+  section{background:#fff;border:1px solid var(--line);border-radius:18px;
+    padding:26px 24px;margin-top:22px;box-shadow:0 4px 14px rgba(20,81,47,.05);
+    opacity:0;transform:translateY(14px);transition:.6s}
+  section.in{opacity:1;transform:none}
+  .num{display:inline-block;font-size:12px;font-weight:700;color:var(--green);
+    background:var(--green-l);padding:3px 10px;border-radius:999px;margin-bottom:10px}
+  h2{font-size:21px;color:var(--green-d);margin-bottom:6px;border-left:5px solid var(--gold);
+    padding-left:12px}
+  .lead{color:var(--gray);font-size:14px;margin:8px 0 18px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px;overflow:hidden;
+    border-radius:12px;border:1px solid var(--line)}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:var(--green-l);color:var(--green-d);font-weight:700}
+  td.amt,th.amt{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;white-space:nowrap}
+  .tag.t{background:#e3f3ea;color:var(--target)}
+  .tag.n{background:#eef0ef;color:var(--nontarget)}
+  tr.sum td{background:#f3f8f5;font-weight:700}
+  tr.subsidy td{background:#fbf4e3;color:var(--green-d);font-weight:800;font-size:15px}
+  tr.new td{background:#fff8ec}
+  .new-flag{color:var(--gold);font-weight:800;font-size:11px;margin-left:6px}
+
+  .kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .kpi{flex:1;min-width:150px;background:var(--green-l);border-radius:14px;padding:16px 14px;text-align:center}
+  .kpi .l{font-size:12px;color:var(--gray)}
+  .kpi .v{font-size:26px;font-weight:800;color:var(--green-d);font-variant-numeric:tabular-nums}
+  .kpi.gold{background:#fbf4e3}.kpi.gold .v{color:var(--gold)}
+
+  .compare{background:#fff8ec;border:1px solid #ecd9a8;border-radius:14px;padding:16px 18px;margin-top:16px}
+  .compare h3{color:var(--gold);font-size:15px;margin-bottom:8px}
+  .compare .row{display:flex;justify-content:space-between;font-size:14px;padding:5px 0;border-bottom:1px dashed #e6d3a3}
+  .compare .row:last-child{border-bottom:none}
+  .compare .up{color:var(--green);font-weight:800}
+
+  .note{font-size:12px;color:var(--gray);margin-top:14px;background:#f3f5f4;border-radius:10px;padding:12px 14px}
+
+  .decision{background:linear-gradient(135deg,#14512f,#1f7a4d);color:#fff;text-align:center;border:none}
+  .decision h2{color:#fff;border-left-color:var(--gold)}
+  .decision .big{font-size:34px;font-weight:800;margin:6px 0}
+  .dbtns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .dbtn{flex:1;min-width:210px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.5);
+    color:#fff;border-radius:14px;padding:18px;cursor:pointer;text-align:left;transition:.2s}
+  .dbtn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px)}
+  .dbtn b{font-size:16px;display:block;margin-bottom:4px}
+  .dbtn span{font-size:13px;opacity:.9}
+  .dbtn .reco{display:inline-block;background:var(--gold);color:#14512f;font-size:11px;font-weight:800;
+    padding:2px 8px;border-radius:6px;margin-bottom:6px}
+
+  /* narration bar */
+  .narrate{position:fixed;left:0;right:0;bottom:0;background:rgba(20,81,47,.97);color:#fff;
+    backdrop-filter:blur(6px);z-index:50;box-shadow:0 -6px 20px rgba(0,0,0,.2)}
+  .narrate .inner{max-width:840px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+  .nbtn{background:var(--gold);color:#14512f;border:none;border-radius:999px;width:46px;height:46px;
+    font-size:20px;cursor:pointer;flex:none;font-weight:800}
+  .nbtn.ghost{background:rgba(255,255,255,.18);color:#fff;width:auto;height:auto;padding:8px 14px;font-size:13px;border-radius:999px}
+  .caption{flex:1;font-size:13.5px;line-height:1.5;min-height:20px}
+  .ctrls{display:flex;gap:8px;align-items:center}
+  @media(max-width:600px){
+    .hero h1{font-size:23px}.kpi .v{font-size:21px}
+    .narrate .inner{flex-wrap:wrap}.caption{order:3;flex-basis:100%}
+  }
+  .disc{font-size:11px;color:var(--gray);text-align:center;margin-top:26px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="kicker">SUSTAINA SHIELD ｜ 脱炭素・省エネ ご提案</div>
+  <h1>有限会社 新生社ボーン・アゲイン 様<br>脱炭素 2段階プラン</h1>
+  <div class="sub">令和8年度 → 令和9年度／千葉県 脱炭素化促進事業補助金 活用</div>
+  <div class="badge">▶ 画面下の「再生」でナレーション再生／高品質な<b>Nanami音声</b>はMicrosoft Edgeで再生されます</div>
+</header>
+
+<div class="wrap">
+
+  <section data-n="1" data-say="新生社ボーン・アゲイン様への、脱炭素2段階プランのご提案です。御社は年間およそ11万キロワットアワーの電力を、高圧一括受電で使われています。この電気代の負担を、補助金を上手に使いながら、自家消費と蓄電池で大きく下げていく計画です。令和8年度と令和9年度の2段階で、無理なく、そして補助の取りこぼしなく進めます。">
+    <span class="num">01 ご提案の全体像</span>
+    <h2>補助金を“2段階”で最大活用する</h2>
+    <p class="lead">千葉県の補助金は「補助率1/2・上限1,000万円／年」。1年で使い切るより、令和8・令和9に分けることで上限枠を“2回”使えます。これが今回いちばんのポイントです。</p>
+    <div class="kpis">
+      <div class="kpi"><div class="l">2年 総工費</div><div class="v">5,578<small>万</small></div></div>
+      <div class="kpi gold"><div class="l">受けられる補助金</div><div class="v">1,964<small>万</small></div></div>
+      <div class="kpi"><div class="l">実質ご負担</div><div class="v">3,614<small>万</small></div></div>
+    </div>
+    <p class="note">※金額は見積・試算ベース（税別）。補助対象・補助額は最終的に千葉県・省エネ診断の確認後に確定します。</p>
+  </section>
+
+  <section data-n="2" data-say="令和8年度です。まず電気の自家消費化を進めます。テスラ・パワーウォール3を4台、54キロワットアワー分導入し、高圧の接続と各種試験を行います。あわせて、屋根700平米に冷暖断熱のトリプルガードコートを施工します。これは省エネと屋根の保護を兼ねた、補助対象になる工事です。令和8年度は総工費2,578万円に対し、補助金は964万円を見込みます。">
+    <span class="num">02 令和8年度</span>
+    <h2>自家消費化 ＋ 蓄電池 ＋ 屋根断熱</h2>
+    <p class="lead">電気代の元になる「買う電気」を減らす、土台づくりの1年。</p>
+    <table>
+      <tr><th>内容</th><th>区分</th><th class="amt">工費(見積)</th></tr>
+      <tr><td>テスラ Powerwall3 ×4台（54kWh）</td><td><span class="tag t">補助対象</span></td><td class="amt">880万</td></tr>
+      <tr><td>高圧接続・自家消費 各種試験</td><td><span class="tag t">補助対象</span></td><td class="amt">300万</td></tr>
+      <tr><td>冷暖断熱トリプルガードコート 屋根700㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">700万</td></tr>
+      <tr><td>足場 400㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">48万</td></tr>
+      <tr><td>パワコン交換（オムロン自家消費）</td><td><span class="tag n">対象外</span></td><td class="amt">650万</td></tr>
+      <tr class="sum"><td>総工費</td><td></td><td class="amt">2,578万</td></tr>
+      <tr class="sum"><td>補助対象額</td><td></td><td class="amt">1,928万</td></tr>
+      <tr class="subsidy"><td>補助金（1/2・上限1,000）</td><td></td><td class="amt">964万</td></tr>
+    </table>
+  </section>
+
+  <section data-n="3" data-say="令和9年度です。ここがご相談のポイント。蓄電池をさらに4台、合計8台108キロワットアワーに増強し、太陽光も増設して合計およそ110キロワットにします。そしてご指示のとおり、塗装・断熱の面積を増やします。窓ガラスコーティング90平米に加え、外壁と屋根のトリプルガードコートを640平米ぶん追加しました。この塗装面の拡大によって、補助対象が2,000万円に達し、補助金は上限いっぱいの1,000万円になります。塗装面を増やすほど、補助枠を使い切れて有利になる、というのがこの提案の肝です。">
+    <span class="num">03 令和9年度 ★塗装面 拡大版</span>
+    <h2>太陽光増設 ＋ 蓄電池8台 ＋ 窓・外壁断熱</h2>
+    <p class="lead">塗装・断熱の面積を増やし、補助枠（上限1,000万）を“使い切る”最適設計。</p>
+    <table>
+      <tr><th>内容</th><th>区分</th><th class="amt">工費(見積)</th></tr>
+      <tr><td>テスラ Powerwall3 ×4台（計8台・108kWh）</td><td><span class="tag t">補助対象</span></td><td class="amt">880万</td></tr>
+      <tr><td>高圧接続・各種試験</td><td><span class="tag t">補助対象</span></td><td class="amt">300万</td></tr>
+      <tr><td>窓ガラスコーティング 90㎡</td><td><span class="tag t">補助対象</span></td><td class="amt">180万</td></tr>
+      <tr class="new"><td>冷暖断熱トリプルガードコート 外壁・屋根 640㎡<span class="new-flag">▲塗装面 追加</span></td><td><span class="tag t">補助対象</span></td><td class="amt">640万</td></tr>
+      <tr><td>太陽光 増設（計 約110kW）</td><td><span class="tag n">対象外</span></td><td class="amt">1,000万</td></tr>
+      <tr class="sum"><td>総工費</td><td></td><td class="amt">3,000万</td></tr>
+      <tr class="sum"><td>補助対象額</td><td></td><td class="amt">2,000万</td></tr>
+      <tr class="subsidy"><td>補助金（1/2・上限1,000）</td><td></td><td class="amt">1,000万（上限到達）</td></tr>
+    </table>
+    <div class="compare">
+      <h3>塗装面を増やす効果（令和9）</h3>
+      <div class="row"><span>塗装面 追加 前：補助対象 1,360万</span><span>補助 680万</span></div>
+      <div class="row"><span>塗装面 +640㎡ 追加：補助対象 2,000万</span><span class="up">補助 1,000万</span></div>
+      <div class="row"><span>差（取りこぼし回収）</span><span class="up">＋320万 お得</span></div>
+    </div>
+  </section>
+
+  <section data-n="4" data-say="2年間の合計です。総工費はおよそ5,578万円。そのうち、受けられる補助金は1,964万円。塗装面を増やさなかった場合は1,644万円でしたので、今回の工夫で320万円ぶん多く補助を引き出せます。実質のご負担はおよそ3,614万円。さらに自家消費による電気代の削減も毎年積み上がっていきます。">
+    <span class="num">04 2年合計</span>
+    <h2>2段階で受けられる補助金</h2>
+    <table>
+      <tr><th>年度</th><th class="amt">総工費</th><th class="amt">補助対象額</th><th class="amt">補助金</th></tr>
+      <tr><td>令和8年度</td><td class="amt">2,578万</td><td class="amt">1,928万</td><td class="amt">964万</td></tr>
+      <tr><td>令和9年度 ★塗装拡大</td><td class="amt">3,000万</td><td class="amt">2,000万</td><td class="amt">1,000万</td></tr>
+      <tr class="subsidy"><td>合計</td><td class="amt">5,578万</td><td class="amt">3,928万</td><td class="amt">1,964万</td></tr>
+    </table>
+    <div class="kpis">
+      <div class="kpi gold"><div class="l">2年 補助金 合計</div><div class="v">1,964<small>万</small></div></div>
+      <div class="kpi"><div class="l">塗装面 拡大の上乗せ</div><div class="v">+320<small>万</small></div></div>
+    </div>
+    <p class="note">税込目安：令和8 約2,836万／令和9 約3,300万／合計 約6,136万（税別工費に10%）。</p>
+  </section>
+
+  <section class="decision" data-n="5" data-say="ご決断のお願いです。おすすめは、塗装面を拡大した最適プラン。2段階で補助金1,964万円を引き出し、補助の取りこぼしをなくす形です。この方向で進めてよろしければ、すぐにCO2CO2スマート宣言の登録と、省エネ診断の手配に着手します。枠は先着で、昨年は9月中旬に終了しています。早めのご決断が、そのまま補助の確実な確保につながります。ご検討よろしくお願いいたします。">
+    <span class="num" style="background:rgba(255,255,255,.18);color:#fff">05 ご決断のお願い</span>
+    <h2>どちらで進めますか？</h2>
+    <div class="big">補助金 1,964万円</div>
+    <div class="sub" style="opacity:.9">塗装面を増やし、2年で補助枠を使い切る最適プラン</div>
+    <div class="dbtns">
+      <div class="dbtn" onclick="this.style.background='rgba(255,255,255,.3)'">
+        <span class="reco">おすすめ</span>
+        <b>A：塗装面 拡大プランで進める</b>
+        <span>令和9に外壁・屋根640㎡を追加／2年補助 1,964万。CO2CO2宣言・省エネ診断にすぐ着手。</span>
+      </div>
+      <div class="dbtn" onclick="this.style.background='rgba(255,255,255,.3)'">
+        <b>B：標準プラン（塗装据え置き）</b>
+        <span>令和9は窓のみ／2年補助 1,644万。まず2段階の枠取りを優先。</span>
+      </div>
+    </div>
+    <p style="font-size:12px;opacity:.85;margin-top:16px">※枠は先着・早期消化（昨年9月中旬終了）。お早めのご決断をおすすめします。</p>
+  </section>
+
+  <p class="disc">
+    本資料の金額は見積・試算ベース（特記なき場合 税別）です。補助対象範囲・補助率・補助金額は、
+    千葉県の公募要領および省エネ診断・県窓口の確認により最終確定します。<br>
+    既設太陽光（約65kW）のFIT/卒FIT条件、太陽光増設の補助対象可否、各単価の妥当性は確認のうえ正式見積を提示します。<br>
+    作成：寺嵜（本社営業部）／ SustainaShield
+  </p>
+</div>
+
+<!-- Narration bar -->
+<div class="narrate">
+  <div class="inner">
+    <button class="nbtn" id="play" aria-label="再生">▶</button>
+    <div class="caption" id="cap">ナレーションを再生すると、各セクションを順に音声でご案内します。</div>
+    <div class="ctrls">
+      <span id="voiceTag" style="font-size:12px;opacity:.85"></span>
+      <button class="nbtn ghost" id="stop">■ 停止</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // reveal on scroll
+  const secs=[...document.querySelectorAll('section')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
+  secs.forEach(s=>io.observe(s));
+
+  // narration
+  const cap=document.getElementById('cap');
+  const playBtn=document.getElementById('play');
+  const stopBtn=document.getElementById('stop');
+  const voiceTag=document.getElementById('voiceTag');
+  const items=secs.map(s=>({el:s,text:s.dataset.say})).filter(i=>i.text);
+  let idx=0, playing=false;
+  const synth=window.speechSynthesis;
+
+  function pickVoice(){
+    const vs=synth.getVoices();
+    // Nanami（Azure/Edgeのニューラル音声）を最優先。次に他の日本語音声。
+    return vs.find(v=>/Nanami/i.test(v.name))
+        || vs.find(v=>/ja-JP/i.test(v.lang) && /Natural|Online|Neural/i.test(v.name))
+        || vs.find(v=>/ja|Japanese|日本/i.test(v.lang+v.name))
+        || vs[0];
+  }
+  function speakAt(i){
+    if(i>=items.length){stopAll();return;}
+    idx=i;
+    const it=items[i];
+    it.el.scrollIntoView({behavior:'smooth',block:'center'});
+    cap.textContent=it.text;
+    const u=new SpeechSynthesisUtterance(it.text);
+    const v=pickVoice(); if(v)u.voice=v;
+    u.lang='ja-JP'; u.rate=0.98; u.pitch=1.0;
+    if(v && /Nanami/i.test(v.name)){ voiceTag.textContent='🎙 Nanami'; }
+    else if(v){ voiceTag.textContent='🎙 '+v.name.replace(/Microsoft |Google /,''); }
+    u.onend=()=>{ if(playing) speakAt(i+1); };
+    synth.cancel(); synth.speak(u);
+  }
+  function startAll(){
+    playing=true; playBtn.textContent='⏸';
+    speakAt(idx>=items.length?0:idx);
+  }
+  function stopAll(){
+    playing=false; playBtn.textContent='▶'; synth.cancel();
+  }
+  playBtn.onclick=()=>{
+    if(playing){ playing=false; playBtn.textContent='▶'; synth.cancel(); }
+    else startAll();
+  };
+  stopBtn.onclick=()=>{ idx=0; stopAll(); cap.textContent='停止しました。再生ボタンで最初からご案内します。'; };
+  if(typeof speechSynthesis!=='undefined') speechSynthesis.onvoiceschanged=()=>{};
+</script>
+</body>
+</html>
